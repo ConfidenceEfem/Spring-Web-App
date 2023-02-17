@@ -12,9 +12,8 @@ import RemoveRedEyeIcon from '@mui/icons-material/RemoveRedEye';
 import { useState } from "react";
 import { ApiLink, ErrorFunction } from "@/app/components/ErrorHandler/ErrorHandler";
 import axios from "axios";
-import CircularProgress, {
-  circularProgressClasses,
-} from '@mui/material/CircularProgress';
+import CircularProgress from '@mui/material/CircularProgress';
+import Swal from "sweetalert2"
 
 
 const SignUp = () => {
@@ -25,7 +24,6 @@ const SignUp = () => {
 
 
     const schema = yup.object().shape({
-        name: yup.string().required("Please input your name"),
         email: yup.string().email().required("Please input email address"),
         password: yup.string().required("Please input password"),
     })
@@ -35,29 +33,34 @@ const SignUp = () => {
     const submit = handleSubmit(async (data)=>{
        try {
         setLoading(true)
-        const {name, email, password} = data
+        const { email, password} = data
         console.log(name, email, password)
 
-        const res = await axios.post(`${ApiLink.link}/v1/user/auth/register`,{
-            firstName: name,
-            lastName: name,
-            emailAddress: name,
-            lastName: email,
-            phoneNumber: "091226412558",
-            gender: "Male",
-            password,
-            userName: name
+        const res = await axios.post(`${ApiLink.link}/v1/user/auth/login`,{
+           user: email,
+           password,
         })
         if(res){
-            setLoading(false)
             console.log(res)
-            
+            setLoading(false)
             alert(`You have registered successfully`)
+            Swal.fire({
+                title: "Log in successful",
+                timer: 3500,
+                showConfirmButton: false,
+                icon: "success"
+            })
         }
 
        } catch (error) {
        setLoading(false)
         console.log(ErrorFunction(error))
+        Swal.fire({
+           text: `${ErrorFunction(error)}`,
+            timer: 3500,
+            showConfirmButton: false,
+            icon: "error"
+        })
        }
         
     })
@@ -74,26 +77,11 @@ const SignUp = () => {
             </Logo>
             <CreateAccountCard>
                 <Captions>
-                    <Title>Create an account</Title>
-                    <SubTitle>Let's get you started on your finanacial freedom journey</SubTitle>
+                    <Title>Welcome back</Title>
+                    <SubTitle>We are excited to have you back here</SubTitle>
                 </Captions>
                 <FormCard onSubmit={submit}>
-                    <LabelAndInput>
-                        <Label>
-                            Name
-                        </Label>
-                        <div
-                       style={{
-                        width: "100%",
-                       }}
-                       >
-                       <Input placeholder="Jane Hughes"
-                        {...register("name")}
-                        />
-                        <Error>{errors?.name?.message}</Error>
-                       </div>
-                        
-                    </LabelAndInput>
+                    
                     <LabelAndInput>
                         <Label>
                             Email
@@ -146,42 +134,16 @@ const SignUp = () => {
                         
                         </InputAndIcon>
                     </LabelAndInput>
-                    <CheckComp>
-                        <IconAndText>
-                            <Icon>
-                                <AiFillCloseCircle/>
-                            </Icon>
-                            {}
-                            <Text>8 Characters minimum </Text>
-                        </IconAndText>
-                        <IconAndText>
-                            <Icon>
-                                <AiFillCloseCircle/>
-                            </Icon>
-                            <Text>One number </Text>
-                        </IconAndText>
-                        <IconAndText>
-                            <Icon>
-                                <AiFillCloseCircle/>
-                            </Icon>
-                            <Text>One lowercase character </Text>
-                        </IconAndText>
-                        <IconAndText>
-                            <Icon>
-                                <AiFillCloseCircle/>
-                            </Icon>
-                            <Text>One special character </Text>
-                        </IconAndText>
-                        <IconAndText>
-                            <Icon>
-                                <AiFillCloseCircle/>
-                            </Icon>
-                            <Text>One uppercase characters  </Text>
-                        </IconAndText>
-                        
-                    </CheckComp>
+                    <SmallTag>
+                        <RememberMe>
+                            <Checkbox type="checkbox"/>
+                            <span>Remember Me</span>
+                        </RememberMe>
+                        <ForgetPassword>Forget Password?</ForgetPassword>
+                    </SmallTag>
+                   
                     {!loading? 
-                    <Button type="submit">Create account</Button>
+                    <Button type="submit">Log In</Button>
                     :
                     <Button type="submit" disabled style={{color: "white",fontSize: "10px"}}>
                          <CircularProgress color="inherit" size="25px"/>
@@ -189,7 +151,7 @@ const SignUp = () => {
                     }
                     <RouteText>
                         <Question>Already have an account?</Question>
-                        <Switch>Login</Switch>
+                        <Switch>Create account</Switch>
                     </RouteText>
                 </FormCard>
 
@@ -227,6 +189,26 @@ const SignUp = () => {
 export default SignUp
 
 
+const Checkbox = styled.input`
+margin-right: 5px;
+`
+
+const ForgetPassword = styled.div`
+cursor: pointer;
+`
+
+const RememberMe = styled.div`
+display:flex;
+flex: 1;
+`
+
+const SmallTag = styled.div`
+display:flex;
+align-items: center;
+font-size: 12px;
+margin-bottom: 70px;
+`
+
 const Error = styled.div`
 font-size: 10px;
 color: red;
@@ -243,6 +225,7 @@ font-family: "Avenir";
 border: none;
 height: 35px;
 display:flex;
+
 flex: 1;
 ::placeholder{
     font-size: 14px;
@@ -266,6 +249,7 @@ align-items: center;
 outline: 2px solid lightgray;
 padding: 5px 10px;
 border-radius: 4px;
+width: 98%;
 `
 
 const Logo = styled.div`
@@ -364,10 +348,6 @@ const Privacy = styled.div`
 
 `
 
-const IconAndText = styled.div`
-display:flex;
-align-items: center;
-`
 
 const Input = styled.input`
 outline: 2px solid lightgray;
@@ -446,37 +426,12 @@ margin-top: 10px;
 }
 `
 
-const Text = styled.div`
-margin-left: 5px;
-font-size: 12px;
-color: lightgray;
-@media screen and (max-width: 370px){
-    font-size: 10px;
-}
-`
 
-const Icon = styled.div`
-color: gray;
-font-size: 15px;
-display: flex;
-align-items: center;
-`
+
 
 const Question = styled.div``
 
-const CheckComp = styled.div`
-display:grid;
-/* grid-template-rows: 3; */
-grid-template-columns: repeat(2, 1fr);
-gap: 15px;
-margin-top: 10px;
-margin-bottom: 30px;
-/* background-color: red; */
-@media screen and (max-width: 430px){
-    gap: 10px;
-}
-/* width: 100%; */
-`
+
 
 const Switch = styled.div`
 color: green;
@@ -537,14 +492,10 @@ margin-bottom: 30px;
 `
 
 const PictureComp = styled.div`
-/* height: 100vh; */
-/* background: red; */
-/* background: #F9F9FB; */
 display:flex;
 align-items: flex-end;
 justify-content: flex-end;
 width: calc(100% - 800px);
-/* width: 100%; */
 @media screen and (max-width: 1460px){
     width: 50%;
 }
@@ -558,7 +509,6 @@ width: calc(100% - 800px);
 
 const FormCard = styled.form`
 display:flex;
-/* flex: 1; */
 flex-direction: column;
 @media screen and (max-width: 900px){
     width: 100%;
@@ -570,7 +520,6 @@ width: 80%;
 display:flex;
 display: flex;
 flex-direction: column;
-/* background-color: purple; */
 @media screen and (max-width: 700px){
     width: 90%;
 }
@@ -581,22 +530,20 @@ flex-direction: column;
 
 const CardComp = styled.div`
 height: 100%;
+height: auto;
 width: 800px;
 background-color: white;
 display: flex;
 justify-content: flex-end;
 @media screen and (max-width: 1460px){
     width: 750px;
- 
 }
 @media screen and (max-width: 1280px){
     width: 50%;
 }
 @media screen and (max-width: 900px){
     width: 100%;
-    /* justify-content: center; */
 }
-/* margin-bottom: 40px; */
 `
 
 const Container = styled.div`

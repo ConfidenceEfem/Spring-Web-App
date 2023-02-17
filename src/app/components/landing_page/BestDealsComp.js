@@ -44,7 +44,7 @@ export const BestDealsComp = () => {
             <CardDisplay>
                 {
                     data?.map((props)=>(
-                         <Card key={props?.id} >
+            <Card key={props?.id} >
             <Image src={props?.image}/>
             <LocationAndPlot>
                 <Location>

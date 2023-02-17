@@ -37,7 +37,7 @@ const HowMyFreedom = () => {
         <CardHolder>
           {
             data.map((props)=>(
-              <Card>
+              <Card key={props?.id}>
             <CardWrapper>
             <Count>{props?.count}</Count>
             <CardTitle>{props?.title}</CardTitle>
