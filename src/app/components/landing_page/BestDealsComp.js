@@ -43,7 +43,7 @@ export const BestDealsComp = () => {
         {data?.map((props) => (
           // <Link href='/detail'>
           <Card key={props?.id} href='/detail'>
-            <Image src={props?.image} />
+            <Image src={props?.image} alt='image' />
             <LocationAndPlot>
               <Location>
                 <LocationIcon src='/DealImage/location.png' alt='image' />

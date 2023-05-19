@@ -140,8 +140,8 @@ const DetailPage = () => {
           <SimilarTitle>Similar Properties</SimilarTitle>
           <PropertiesHolder>
             {data?.map((props) => (
-              <Card>
-                <Image src={props?.image} key={props.id} />
+              <Card key={props.id}>
+                <Image src={props?.image} alt='image' />
                 <LocationAndPlot>
                   <Location>
                     <CardLocationIcon
