@@ -21,8 +21,8 @@ const Hero = () => {
         </Contents>
         <ImageAndSearchComp>
           <ImageComp>
-            <Image src='/hero.png' />
-            <Image src='/hero1.png' />
+            <Image src='/hero.png' alt='hero' />
+            <Image src='/hero1.png' alt='hero' />
           </ImageComp>
           <SearchComp>
             <SearchWrapper>

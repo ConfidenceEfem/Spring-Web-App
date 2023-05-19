@@ -62,7 +62,7 @@ const RecommendedPage = () => {
                 <Image src={props?.image} />
                 <LocationAndPlot>
                   <Location>
-                    <LocationIcon src='/DealImage/location.png' />
+                    <LocationIcon src='/DealImage/location.png' alt='image' />
                     <span>{props?.location}</span>
                   </Location>
                   <Plot>{props?.plot} Plots</Plot>
