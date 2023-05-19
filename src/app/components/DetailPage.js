@@ -141,10 +141,13 @@ const DetailPage = () => {
           <PropertiesHolder>
             {data?.map((props) => (
               <Card>
-                <Image src={props?.image} />
+                <Image src={props?.image} key={props.id} />
                 <LocationAndPlot>
                   <Location>
-                    <CardLocationIcon src='/DealImage/location.png' />
+                    <CardLocationIcon
+                      src='/DealImage/location.png'
+                      alt='image'
+                    />
                     <span>{props?.location}</span>
                   </Location>
                   <Plot>{props?.plot} Plots</Plot>

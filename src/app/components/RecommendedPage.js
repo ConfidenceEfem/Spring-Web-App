@@ -58,7 +58,7 @@ const RecommendedPage = () => {
           <CardHolder>
             {data?.map((props) => (
               //   <Link to='/detail'>
-              <Card>
+              <Card key={props?.id}>
                 <Image src={props?.image} />
                 <LocationAndPlot>
                   <Location>
