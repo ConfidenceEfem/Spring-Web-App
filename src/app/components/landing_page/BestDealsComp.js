@@ -35,7 +35,7 @@ export const BestDealsComp = () => {
       <Heading>
         <Title>Best deals for you</Title>
         <SeeAll>
-          <span>See all</span>
+          <span>See SeeAll</span>
           <ChevronRightRoundedIcon />
         </SeeAll>
       </Heading>

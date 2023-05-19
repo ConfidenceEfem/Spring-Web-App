@@ -1,6 +1,7 @@
 "use client";
 import styled from "styled-components";
 import MenuRoundedIcon from "@mui/icons-material/MenuRounded";
+import Link from "next/link";
 
 export const Header = () => {
   return (
@@ -14,8 +15,10 @@ export const Header = () => {
           <Nav>Contact Us</Nav>
         </Navigation>
         <Buttons>
-          <Button br='1px solid #000000'>Log In</Button>
-          <Button bg='#000000' style={{ color: "white" }}>
+          <Button br='1px solid #000000' href={"/signin"}>
+            Log In
+          </Button>
+          <Button bg='#000000' style={{ color: "white" }} href='/signup'>
             Sign Up
           </Button>
         </Buttons>
@@ -35,10 +38,11 @@ const MenuIcon = styled.div`
   }
 `;
 
-const Button = styled.div`
+const Button = styled(Link)`
   display: flex;
   justify-content: center;
   align-items: center;
+  text-decoration: none;
   padding: 10px;
   gap: 10px;
   width: 120px;

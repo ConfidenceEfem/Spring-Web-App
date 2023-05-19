@@ -1,7 +1,7 @@
 "use client";
 import "./app.css";
 import styled from "styled-components";
-import { AiFillCloseCircle } from "react-icons/ai";
+import { AiFillCheckCircle, AiFillCloseCircle } from "react-icons/ai";
 import * as yup from "yup";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
@@ -18,16 +18,26 @@ import axios from "axios";
 import CircularProgress, {
   circularProgressClasses,
 } from "@mui/material/CircularProgress";
+import Swal from "sweetalert2";
+import Link from "next/link";
 
 const SignUp = () => {
   const [toggle, setToggle] = useState(false);
 
   const [loading, setLoading] = useState(false);
 
+  const [checkPassword, setCheckPassword] = useState("");
+
   const schema = yup.object().shape({
     name: yup.string().required("Please input your name"),
     email: yup.string().email().required("Please input email address"),
-    password: yup.string().required("Please input password"),
+    password: yup
+      .string()
+      .required("Please input password")
+      .matches(
+        /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[#$@!%&*?])[A-Za-z\d#$@!%&*?]{8,30}$/,
+        "Must Contain at least 8 Characters, One Uppercase, One Lowercase, One Number and one special case Character"
+      ),
   });
 
   const {
@@ -56,11 +66,22 @@ const SignUp = () => {
         setLoading(false);
         console.log(res);
 
-        alert(`You have registered successfully`);
+        Swal.fire({
+          showConfirmButton: false,
+          timer: 3000,
+          icon: "success",
+          title: "Registration Successful",
+        });
       }
     } catch (error) {
       setLoading(false);
       console.log(ErrorFunction(error));
+      Swal.fire({
+        text: `${ErrorFunction(error)}`,
+        timer: 3500,
+        showConfirmButton: false,
+        icon: "error",
+      });
     }
   });
 
@@ -112,9 +133,23 @@ const SignUp = () => {
 
                 <InputAndIcon>
                   {!toggle ? (
-                    <Input1 {...register("password")} type='password' />
+                    <Input1
+                      {...register("password")}
+                      type='password'
+                      value={checkPassword}
+                      onChange={(e) => {
+                        setCheckPassword(e.target.value);
+                      }}
+                    />
                   ) : (
-                    <Input1 {...register("password")} type='text' />
+                    <Input1
+                      {...register("password")}
+                      type='text'
+                      value={checkPassword}
+                      onChange={(e) => {
+                        setCheckPassword(e.target.value);
+                      }}
+                    />
                   )}
                   {!toggle ? (
                     <EyeIcon
@@ -134,38 +169,85 @@ const SignUp = () => {
                     </EyeIcon>
                   )}
                 </InputAndIcon>
+                <Error>{errors?.password?.message}</Error>
               </LabelAndInput>
               <CheckComp>
                 <IconAndText>
-                  <Icon>
-                    <AiFillCloseCircle />
-                  </Icon>
-                  {}
-                  <Text>8 Characters minimum </Text>
+                  {checkPassword.length >= 8 ? (
+                    <Icon>
+                      <AiFillCheckCircle color='green' />
+                    </Icon>
+                  ) : (
+                    <Icon>
+                      <AiFillCloseCircle color='red' />
+                    </Icon>
+                  )}
+                  {/* {} */}
+                  <Text cl={checkPassword.length >= 8}>
+                    8 Characters minimum{" "}
+                  </Text>
                 </IconAndText>
                 <IconAndText>
-                  <Icon>
-                    <AiFillCloseCircle />
-                  </Icon>
-                  <Text>One number </Text>
+                  {checkPassword.match(/\d/) ? (
+                    <Icon>
+                      <AiFillCheckCircle color='green' />
+                    </Icon>
+                  ) : (
+                    <Icon>
+                      <AiFillCloseCircle color='red' />
+                    </Icon>
+                  )}
+                  <Text cl={checkPassword.match(/\d/)}>One number </Text>
                 </IconAndText>
                 <IconAndText>
-                  <Icon>
-                    <AiFillCloseCircle />
-                  </Icon>
-                  <Text>One lowercase character </Text>
+                  {checkPassword.match(/[a-z]/) ? (
+                    <Icon>
+                      <AiFillCheckCircle color='green' />
+                    </Icon>
+                  ) : (
+                    <Icon>
+                      <AiFillCloseCircle color='red' />
+                    </Icon>
+                  )}
+                  <Text cl={checkPassword.match(/[a-z]/) ? true : false}>
+                    One lowercase character{" "}
+                  </Text>
                 </IconAndText>
                 <IconAndText>
-                  <Icon>
-                    <AiFillCloseCircle />
-                  </Icon>
-                  <Text>One special character </Text>
+                  {checkPassword.match(
+                    /[!@#$%^&*()_+\-=[\]{};':"\\|,.<>/?]/
+                  ) ? (
+                    <Icon>
+                      <AiFillCheckCircle color='green' />
+                    </Icon>
+                  ) : (
+                    <Icon>
+                      <AiFillCloseCircle color='red' />
+                    </Icon>
+                  )}
+                  <Text
+                    cl={
+                      checkPassword.match(/[!@#$%^&*()_+\-=[\]{};':"\\|,.<>/?]/)
+                        ? true
+                        : false
+                    }
+                  >
+                    One special character
+                  </Text>
                 </IconAndText>
                 <IconAndText>
-                  <Icon>
-                    <AiFillCloseCircle />
-                  </Icon>
-                  <Text>One uppercase characters </Text>
+                  {checkPassword.match(/[A-Z]/) ? (
+                    <Icon>
+                      <AiFillCheckCircle color='green' />
+                    </Icon>
+                  ) : (
+                    <Icon>
+                      <AiFillCloseCircle color='red' />
+                    </Icon>
+                  )}
+                  <Text cl={checkPassword.match(/[A-Z]/) ? true : false}>
+                    One uppercase
+                  </Text>
                 </IconAndText>
               </CheckComp>
               {!loading ? (
@@ -181,7 +263,7 @@ const SignUp = () => {
               )}
               <RouteText>
                 <Question>Already have an account?</Question>
-                <Switch>Login</Switch>
+                <Switch href='/signin'>Login</Switch>
               </RouteText>
             </FormCard>
           </CreateAccountCard>
@@ -428,7 +510,7 @@ const RouteText = styled.div`
 const Text = styled.div`
   margin-left: 5px;
   font-size: 12px;
-  color: lightgray;
+  color: ${({ cl }) => (cl === true ? "black" : "gray")};
   @media screen and (max-width: 370px) {
     font-size: 10px;
   }
@@ -457,10 +539,11 @@ const CheckComp = styled.div`
   /* width: 100%; */
 `;
 
-const Switch = styled.div`
+const Switch = styled(Link)`
   color: green;
   margin-left: 5px;
   cursor: pointer;
+  text-decoration: none;
 `;
 
 const Button = styled.button`
