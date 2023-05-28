@@ -268,7 +268,7 @@ const SignUp = () => {
             </FormCard>
           </CreateAccountCard>
           <Footer>
-            <Privacy>Privacy policy</Privacy>
+            <Privacy>Privacy policy</Privacy>``
             <CopyRight>© 2023 Spring LLC</CopyRight>
           </Footer>
         </CardWrapper>

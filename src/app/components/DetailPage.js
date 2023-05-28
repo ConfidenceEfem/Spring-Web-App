@@ -3,8 +3,12 @@ import styled from "styled-components";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import LocationOnOutlinedIcon from "@mui/icons-material/LocationOnOutlined";
 import { useState } from "react";
+import TermsAndConditionModal from "./TermsAndConditionModal";
 
 const DetailPage = () => {
+  const [showTermsAndConditionModal, setShowTermsAndConditionModal] =
+    useState(false);
+
   const [data, setData] = useState([
     {
       id: 1,
@@ -29,8 +33,13 @@ const DetailPage = () => {
     },
   ]);
 
+  const onshowTermsAndConditionModal = () => {
+    setShowTermsAndConditionModal(!showTermsAndConditionModal);
+  };
+
   return (
     <Container>
+      {showTermsAndConditionModal && <TermsAndConditionModal />}
       <Wrapper>
         <RedirectAndDetails>
           <RedirectComp>
@@ -122,7 +131,13 @@ const DetailPage = () => {
                     </PricesAndLabel>
                     <Buttons>
                       <Button bd>Pay in instalments</Button>
-                      <Button bg cl>
+                      <Button
+                        bg
+                        cl
+                        onClick={() => {
+                          onshowTermsAndConditionModal();
+                        }}
+                      >
                         Buy Now
                       </Button>
                     </Buttons>

@@ -4,6 +4,7 @@ import MenuItem from "@mui/material/MenuItem";
 import FormHelperText from "@mui/material/FormHelperText";
 import FormControl from "@mui/material/FormControl";
 import Select from "@mui/material/Select";
+import TermsAndConditionModal from "../TermsAndConditionModal";
 
 const Hero = () => {
   return (
@@ -41,10 +42,14 @@ const Hero = () => {
                 </SearchItem>
                 <SearchItem>
                   <SearchContent>
-                    <SearchSelect displayEmpty>
-                      <MenuItem sx={{ border: "none", outline: "none" }}>
+                    <SearchSelect
+                      displayEmpty
+                      labelId='demo-simple-select-filled-label'
+                      id='demo-simple-select-filled'
+                    >
+                      <MuiSelectTag sx={{ border: "none", outline: "none" }}>
                         Land Size
-                      </MenuItem>
+                      </MuiSelectTag>
                     </SearchSelect>
                     <SearchSubTitle>How many plots or acres?</SearchSubTitle>
                   </SearchContent>
@@ -64,6 +69,13 @@ const Hero = () => {
                 <span>Search</span>
               </SearchButton>
             </SearchWrapper>
+            <MobileSearchWrapper>
+              <MobileSearhLeftItems>
+                <MobileTopTag>Search for lands</MobileTopTag>
+                <SpecifiyLand>Specify land details</SpecifiyLand>
+              </MobileSearhLeftItems>
+              <RightStartButton>Start</RightStartButton>
+            </MobileSearchWrapper>
           </SearchComp>
         </ImageAndSearchComp>
       </Wrapper>
@@ -72,6 +84,44 @@ const Hero = () => {
 };
 
 export default Hero;
+
+const MuiSelectTag = styled(MenuItem)`
+  && {
+    border: 1px solid white;
+    outline: 1px solid white;
+  }
+`;
+
+const RightStartButton = styled.div`
+  padding: 12px 35px;
+  background-color: black;
+  border-radius: 5px;
+  color: white;
+  cursor: pointer;
+  font-size: 14px;
+  @media screen and (max-width: 350px) {
+    padding: 12px 32px;
+  }
+`;
+
+const SpecifiyLand = styled.div`
+  font-size: 15px;
+  color: gray;
+  @media screen and (max-width: 350px) {
+    font-size: 13px;
+  }
+`;
+
+const MobileTopTag = styled.div`
+  font-weight: 600;
+  font-size: 18px;
+  margin-bottom: 15px;
+  @media screen and (max-width: 350px) {
+    font-size: 15px;
+  }
+`;
+
+const MobileSearhLeftItems = styled.div``;
 
 const SearchButton = styled.div`
   span {
@@ -110,8 +160,8 @@ const SearchSubTitle = styled.div`
 
 const SearchSelect = styled(Select)`
   && {
-    border: 2px solid transparent;
-    outline: 2px solid transparent;
+    border: 2px solid white;
+    outline: 2px solid white;
     background-color: none;
     /* outline: none; */
     font-weight: 600;
@@ -131,15 +181,31 @@ const SearchItem = styled.div`
   width: 90%;
 `;
 
+const MobileSearchWrapper = styled.div`
+  display: none;
+  @media screen and (max-width: 800px) {
+    width: 90%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+`;
+
 const SearchWrapper = styled.div`
   width: 90%;
   display: flex;
   align-items: center;
+  @media screen and (max-width: 800px) {
+    display: none;
+  }
 `;
 
 const Image = styled.img`
   width: 100%;
   height: 350px;
+  @media screen and (max-width: 890px) {
+    height: 300px;
+  }
   @media screen and (max-width: 700px) {
     height: 250px;
   }
@@ -150,7 +216,8 @@ const Image = styled.img`
 
 const SearchComp = styled.div`
   width: 90%;
-  height: 100px;
+  min-height: 100px;
+  height: auto;
   background: white;
   box-shadow: 0px 15px 30px rgba(115, 115, 115, 0.1);
   border-radius: 10px;
@@ -201,6 +268,9 @@ const Desc = styled.div`
     font-size: 25px;
     line-height: 33px;
   }
+  @media screen and (max-width: 700px) {
+    font-size: 22px;
+  }
   @media screen and (max-width: 500px) {
     font-size: 18px;
   }
@@ -234,6 +304,20 @@ const Caption = styled.div`
   @media screen and (max-width: 1110px) {
     width: 400px;
     font-size: 40px;
+  }
+  @media screen and (max-width: 900px) {
+    width: 400px;
+    font-size: 35px;
+  }
+  @media screen and (max-width: 800px) {
+    margin-bottom: 20px;
+    width: 100%;
+  }
+  @media screen and (max-width: 500px) {
+    font-size: 33px;
+  }
+  @media screen and (max-width: 350px) {
+    font-size: 30px;
   }
 `;
 
