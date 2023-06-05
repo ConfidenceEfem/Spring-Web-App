@@ -172,5 +172,7 @@ const Container = styled.div`
   align-items: center;
   font-family: "Avenir";
   box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
+  position: fixed;
+  background-color: white;
   /* background-color: blue; */
 `;

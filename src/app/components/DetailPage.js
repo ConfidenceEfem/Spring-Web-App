@@ -4,10 +4,12 @@ import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import LocationOnOutlinedIcon from "@mui/icons-material/LocationOnOutlined";
 import { useState } from "react";
 import TermsAndConditionModal from "./TermsAndConditionModal";
+import PaymentModal from "./PaymentModal";
 
 const DetailPage = () => {
   const [showTermsAndConditionModal, setShowTermsAndConditionModal] =
     useState(false);
+  const [showPaymentModal, setShowPaymentModal] = useState(false);
 
   const [data, setData] = useState([
     {
@@ -35,11 +37,25 @@ const DetailPage = () => {
 
   const onshowTermsAndConditionModal = () => {
     setShowTermsAndConditionModal(!showTermsAndConditionModal);
+    setShowPaymentModal(false);
+  };
+
+  const onShowPaymentModal = () => {
+    setShowPaymentModal(!showPaymentModal);
+    setShowTermsAndConditionModal(false);
   };
 
   return (
     <Container>
-      {showTermsAndConditionModal && <TermsAndConditionModal />}
+      {showTermsAndConditionModal && (
+        <TermsAndConditionModal
+          onshowTermsAndConditionModal={onshowTermsAndConditionModal}
+          onShowPaymentModal={onShowPaymentModal}
+        />
+      )}
+      {showPaymentModal && (
+        <PaymentModal onShowPaymentModal={onShowPaymentModal} />
+      )}
       <Wrapper>
         <RedirectAndDetails>
           <RedirectComp>
@@ -603,6 +619,8 @@ const Container = styled.div`
   justify-content: center;
   font-family: "Avenir";
   margin-bottom: 50px;
+  padding-top: 70px;
+  /* margin-top: 50px; */
 `;
 
 const Wrapper = styled.div`
